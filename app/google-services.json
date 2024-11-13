@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "564026252620",
+    "project_id": "shopme-988b8",
+    "storage_bucket": "shopme-988b8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564026252620:android:1d3119e4df442c03d783e9",
+        "android_client_info": {
+          "package_name": "com.example.shoppinglist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp7T3_1tAwh-uSCkGkmkaG6pmE_lp_wKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
