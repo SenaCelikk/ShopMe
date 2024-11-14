@@ -17,15 +17,20 @@ import androidx.core.view.WindowCompat
 import com.example.shoppinglist.screens.ShoppingListScreen
 import com.example.shoppinglist.ui.theme.ShoppingListTheme
 import com.example.shoppinglist.viewmodel.ShoppingListViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
     private val viewModel: ShoppingListViewModel by viewModels()
+    private lateinit var auth: FirebaseAuth // firebase authentication
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        auth = Firebase.auth
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {

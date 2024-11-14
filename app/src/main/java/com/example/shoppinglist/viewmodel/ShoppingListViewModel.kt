@@ -74,4 +74,8 @@ class ShoppingListViewModel : ViewModel() {
             }
         }
     }
+
+    fun toggleItemSelection(item: ShoppingItem) {
+        item.isSelected = !item.isSelected
+    }
 }

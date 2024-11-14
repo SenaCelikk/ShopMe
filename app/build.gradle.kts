@@ -68,7 +68,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.compose.vlifecycleversion)
-
+    implementation (libs.firebase.auth.ktx)
     implementation (libs.androidx.runtime.livedata)
     implementation(libs.play.services.location)
 
