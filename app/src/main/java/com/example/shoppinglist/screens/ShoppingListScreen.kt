@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,7 +48,7 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel, modifier: Modifier = Mo
     val shoppingList = viewModel.shoppingList
     var showDialog by remember { mutableStateOf(false) }
 
-    Scaffold(topBar = {
+    Scaffold(modifier = Modifier.padding(bottom = 10.dp), topBar = {
         CenterAlignedTopAppBar(title = {
             Text(
                 text = "ShopMe",
@@ -57,23 +56,16 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel, modifier: Modifier = Mo
                 style = MaterialTheme.typography.titleLarge
             )
         }, navigationIcon = {
-            IconButton(onClick = { /* TODO: Handle menu click */ }) {
-                Icon(
-                    Icons.Default.Menu, contentDescription = "Menu", tint = Color.Black
-                )
-            }
-        }, actions = {
             Icon(
                 painter = painterResource(R.drawable.open_doodles_man_jumping_to_the_side),
                 contentDescription = "Profile",
                 tint = Color.Black,
                 modifier = Modifier
-                    .padding(5.dp)
+                    .padding(vertical = 10.dp, horizontal = 5.dp)
                     .size(100.dp, 70.dp)
             )
-
         }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color.White
+            containerColor = Color(0xFF3F51B5)
         )
         )
     }, content = { paddingValues ->
@@ -171,7 +163,8 @@ fun SwipeableItem(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete",
-                    modifier = Modifier.size(24.dp)
+                    tint = Color.Red,
+                    modifier = Modifier.size(18.dp)
                 )
             }
         }
