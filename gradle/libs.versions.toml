@@ -12,6 +12,7 @@ lifecycleRuntimeKtx = "2.8.6"
 composeBom = "2024.10.00"
 lifecycleViewmodelCompose = "2.8.6"
 lifecycleViewmodelComposeVersion = "<lifecycle_version>"
+lottieComposeVersion = "4.0.0"
 playServicesLocationVersion = "21.3.0"
 runtimeLivedataVersion = "1.7.4"
 storageVersion = "1.5.0"
@@ -41,6 +42,7 @@ androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storageVersion" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieComposeVersion" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocationVersion" }
 
 [plugins]

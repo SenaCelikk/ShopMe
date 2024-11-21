@@ -1,6 +1,8 @@
 package com.example.shoppinglist.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,8 +18,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -28,16 +31,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.shoppinglist.R
+import androidx.compose.ui.unit.sp
 import com.example.shoppinglist.model.ShoppingItem
 import com.example.shoppinglist.viewmodel.ShoppingListViewModel
 
@@ -48,62 +49,63 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel, modifier: Modifier = Mo
     val shoppingList = viewModel.shoppingList
     var showDialog by remember { mutableStateOf(false) }
 
-    Scaffold(modifier = Modifier.padding(bottom = 10.dp), topBar = {
-        CenterAlignedTopAppBar(title = {
-            Text(
-                text = "ShopMe",
-                color = Color.Black,
-                style = MaterialTheme.typography.titleLarge
-            )
-        }, navigationIcon = {
-            Icon(
-                painter = painterResource(R.drawable.open_doodles_man_jumping_to_the_side),
-                contentDescription = "Profile",
-                tint = Color.Black,
-                modifier = Modifier
-                    .padding(vertical = 10.dp, horizontal = 5.dp)
-                    .size(100.dp, 70.dp)
-            )
-        }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = Color(0xFF3F51B5)
-        )
-        )
-    }, content = { paddingValues ->
+    Scaffold(modifier = Modifier.padding(bottom = 10.dp), content = { paddingValues ->
         Box(
             modifier = modifier
                 .fillMaxSize()
                 .background(color = Color.White)
                 .padding(paddingValues)
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            if (shoppingList.isEmpty()) {
+                Card(
+                    elevation = CardDefaults.cardElevation(18.dp),
+                    modifier = Modifier
+                        .padding(vertical = 80.dp, horizontal = 16.dp)
+                        .align(Alignment.TopCenter)
+                        .fillMaxWidth(),
+                    border = BorderStroke(1.dp, Color.Blue),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White, // Change color of the card when pressed
+                    )
+                ) {
+                    Text(
+                        text = "Couldn't Decide What To Get Yet?, Click Me!!",
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxWidth()
+                            .clickable(true, onClick = { showDialog = true }),
+                    )
+                }
+                AnimatedPreloader(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            } else {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
                     items(shoppingList) { item ->
-                        SwipeableItem(
+                        LazyColumnItem(
                             item = item,
                             onRemove = { viewModel.removeItem(item) },
                             viewModel = viewModel
                         )
                     }
                 }
+                FloatingActionButton(
+                    onClick = { showDialog = true },
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(16.dp),
+                    containerColor = Color(0xFFA1C6EA),
+                    contentColor = Color.White
+                ) {
+                    Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Item")
+                }
             }
 
-            FloatingActionButton(
-                onClick = { showDialog = true },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp),
-                containerColor = Color(0xFFA1C6EA),
-                contentColor = Color.White
-            ) {
-                Icon(imageVector = Icons.Default.AddCircle, contentDescription = "Add Item")
-            }
 
             if (showDialog) {
                 AddItemDialog(onAdd = { item ->
@@ -116,8 +118,9 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel, modifier: Modifier = Mo
     })
 }
 
+//LazyColumn items
 @Composable
-fun SwipeableItem(
+fun LazyColumnItem(
     item: ShoppingItem,
     onRemove: () -> Unit,
     viewModel: ShoppingListViewModel
@@ -145,13 +148,16 @@ fun SwipeableItem(
                 ) {
                     Text(
                         text = "${item.name}",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color(0xff04080F)
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color(0xff04080F),
+                        fontSize = 18.sp
                     )
-                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Quantity: ${item.quantity}",
-                        color = Color(0xff04080F)
+                        color = Color(0xff04080F),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = 14.sp
+
                     )
                 }
             }
@@ -161,10 +167,9 @@ fun SwipeableItem(
                 modifier = Modifier.align(Alignment.CenterVertically) // Align icon to center vertically
             ) {
                 Icon(
-                    imageVector = Icons.Default.Delete,
+                    imageVector = Icons.Default.Clear,
                     contentDescription = "Delete",
-                    tint = Color.Red,
-                    modifier = Modifier.size(18.dp)
+                    tint = Color.Red
                 )
             }
         }

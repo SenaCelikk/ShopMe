@@ -71,6 +71,7 @@ dependencies {
     implementation (libs.firebase.auth.ktx)
     implementation (libs.androidx.runtime.livedata)
     implementation(libs.play.services.location)
+    implementation(libs.lottie.compose)
 
 }
 
