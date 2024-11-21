@@ -1,5 +1,6 @@
 package com.example.shoppinglist.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,7 +16,13 @@ class ShoppingListViewModel : ViewModel() {
     val shoppingList: List<ShoppingItem> get() = _shoppingList
 
     init {
-        fetchItems()
+        observeItems()
+    }
+    private fun observeItems() {
+        shoppingRepository.observeItems { items ->
+            _shoppingList.clear()
+            _shoppingList.addAll(items)
+        }
     }
 
     private fun fetchItems() {

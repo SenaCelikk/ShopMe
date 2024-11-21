@@ -7,6 +7,27 @@ import kotlinx.coroutines.tasks.await
 
 class ShoppingListRepository(private val db: FirebaseFirestore) {
 
+    fun observeItems(onItemsUpdated: (List<ShoppingItem>) -> Unit) {
+        db.collection("shopping_items")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null || snapshot == null) {
+                    Log.e("ShoppingRepository", "Error fetching items: ${e?.message}")
+                    return@addSnapshotListener
+                }
+                val items = mutableListOf<ShoppingItem>()
+                for (doc in snapshot.documents) {
+                    val item = doc.toObject(ShoppingItem::class.java)
+                    item?.id = doc.id // Assign the document ID to the item
+                    item?.let {
+                        val colorHex = it.swipeColorHex // Default to white if no color is set
+                        it.swipeColorHex = colorHex
+                        items.add(it)
+                    }
+                }
+                onItemsUpdated(items)
+            }
+    }
+
     suspend fun fetchItems(): List<ShoppingItem> {
         val items = mutableListOf<ShoppingItem>()
         try {
