@@ -9,8 +9,10 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,26 +30,46 @@ fun AddItemDialog(onAdd: (ShoppingItem) -> Unit, onDismiss: () -> Unit) {
 
     AlertDialog(
         onDismissRequest = { onDismiss },
-        title = { Text("Add Shopping Item") },
+        title = { Text("Add Shopping Item",
+            color =  MaterialTheme.colorScheme.primary) },
+        containerColor = MaterialTheme.colorScheme.tertiary,
         text = {
             Column {
                 OutlinedTextField(
                     value = itemName,
-                    label = { Text("Enter Item Name") },
+                    label = {
+                        Text(
+                            text = "Enter Item Name",
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    },
                     onValueChange = {
                         itemName = it
                     },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "ItemName"
+                            contentDescription = "ItemName",
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     },
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier.padding(10.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.primary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        focusedContainerColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.tertiary
+                    )
                 )
                 OutlinedTextField(
                     value = itemQuantity.toString(),
-                    label = { Text("Enter Quantity") },
+                    label = {
+                        Text(
+                            text = "Enter Quantity",
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    },
                     onValueChange = { input ->
                         itemQuantity = if (input.all { it.isDigit() }) input else itemQuantity
                     },
@@ -55,10 +77,18 @@ fun AddItemDialog(onAdd: (ShoppingItem) -> Unit, onDismiss: () -> Unit) {
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Add,
-                            contentDescription = "ItemName"
+                            contentDescription = "ItemName",
+                            tint = MaterialTheme.colorScheme.primary,
                         )
                     },
-                    modifier = Modifier.padding(10.dp)
+                    modifier = Modifier.padding(10.dp),
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = MaterialTheme.colorScheme.primary,
+                        unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                        cursorColor = MaterialTheme.colorScheme.primary,
+                        focusedContainerColor = MaterialTheme.colorScheme.tertiary,
+                        unfocusedContainerColor = MaterialTheme.colorScheme.tertiary
+                    )
                 )
             }
         },
