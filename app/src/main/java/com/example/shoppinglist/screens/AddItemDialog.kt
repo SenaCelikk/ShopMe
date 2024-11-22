@@ -26,7 +26,10 @@ fun AddItemDialog(onAdd: (ShoppingItem) -> Unit, onDismiss: () -> Unit) {
     var itemName by remember { mutableStateOf("") }
     var itemQuantity by remember { mutableStateOf("") }
 
-    AlertDialog( onDismissRequest = { onDismiss }, title = { Text("Add Shopping Item") }, text = {
+    AlertDialog(
+        onDismissRequest = { onDismiss },
+        title = { Text("Add Shopping Item") },
+        text = {
             Column {
                 OutlinedTextField(
                     value = itemName,
@@ -58,19 +61,21 @@ fun AddItemDialog(onAdd: (ShoppingItem) -> Unit, onDismiss: () -> Unit) {
                     modifier = Modifier.padding(10.dp)
                 )
             }
-    }, confirmButton = {
-        Button(onClick = {
-            if (itemName.isNotBlank()) {
-                onAdd(ShoppingItem(name = itemName, quantity = itemQuantity.toIntOrNull() ?: 1))
-                itemName = ""
-                itemQuantity = "1"
+        },
+        confirmButton = {
+            Button(onClick = {
+                if (itemName.isNotBlank()) {
+                    onAdd(ShoppingItem(name = itemName, quantity = itemQuantity.toIntOrNull() ?: 1))
+                    itemName = ""
+                    itemQuantity = "1"
+                }
+            }) {
+                Text("Add")
             }
-        }) {
-            Text("Add")
-        }
-    }, dismissButton = {
-        Button(onClick = onDismiss) {
-            Text("Cancel")
-        }
-    })
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        })
 }
