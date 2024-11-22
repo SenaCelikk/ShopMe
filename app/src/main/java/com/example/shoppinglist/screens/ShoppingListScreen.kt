@@ -21,6 +21,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -65,7 +66,9 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel) {
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.tertiary)
         ) {
-            if (shoppingList.isEmpty()) {
+            if (viewModel.isLoading) {
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+            } else if (shoppingList.isEmpty()) {
                 EmptyState { showDialog = true }
             } else {
                 ShoppingListContent(

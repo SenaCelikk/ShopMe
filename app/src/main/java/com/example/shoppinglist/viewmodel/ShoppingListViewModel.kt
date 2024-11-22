@@ -2,6 +2,7 @@ package com.example.shoppinglist.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglist.model.ShoppingItem
@@ -14,22 +15,29 @@ class ShoppingListViewModel : ViewModel() {
     private val shoppingRepository = ShoppingListRepository(db)
     private val _shoppingList = mutableStateListOf<ShoppingItem>()
     val shoppingList: List<ShoppingItem> get() = _shoppingList
+    private val _isLoading = mutableStateOf(true)
+    val isLoading: Boolean get() = _isLoading.value
 
     init {
+        fetchItems()
         observeItems()
     }
     private fun observeItems() {
+        _isLoading.value = true
         shoppingRepository.observeItems { items ->
             _shoppingList.clear()
             _shoppingList.addAll(items)
+            _isLoading.value = false
         }
     }
 
     private fun fetchItems() {
+        _isLoading.value = true
         viewModelScope.launch {
             val items = shoppingRepository.fetchItems()
             _shoppingList.clear()
             _shoppingList.addAll(items)
+            _isLoading.value = false
         }
     }
 
