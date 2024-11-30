@@ -1,5 +1,7 @@
 package com.example.shoppinglist.screens
 
+import androidx.compose.foundation.Image
+import com.example.shoppinglist.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.shoppinglist.viewmodel.ShoppingListViewModel
 
@@ -33,28 +36,33 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel) {
     val shoppingList = viewModel.shoppingList
     var showDialog by remember { mutableStateOf(false) }
 
-    Scaffold(
-        topBar = {
-            ShoppingListTopAppBar(showTitle = shoppingList.isNotEmpty())
-        },
-        floatingActionButton = {
-            if (shoppingList.isNotEmpty()) {
-                FloatingAddButton(
-                    onClick = { showDialog = true })
-            }
+    Scaffold(topBar = {
+        ShoppingListTopAppBar(showTitle = shoppingList.isNotEmpty())
+    }, floatingActionButton = {
+        if (shoppingList.isNotEmpty()) {
+            FloatingAddButton(onClick = { showDialog = true })
         }
-    ) { paddingValues ->
+    }) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.onPrimary)
+                .background(
+                    if (shoppingList.isNotEmpty())
+                        MaterialTheme.colorScheme.onBackground
+                    else
+                        MaterialTheme.colorScheme.onPrimary)
         ) {
             if (viewModel.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else if (shoppingList.isEmpty()) {
                 EmptyState { showDialog = true }
             } else {
+                Image(
+                    painterResource(R.drawable.frankie),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
                 ShoppingListContent(
                     shoppingList = shoppingList,
                     onRemove = viewModel::removeItem,
@@ -63,13 +71,10 @@ fun ShoppingListScreen(viewModel: ShoppingListViewModel) {
             }
 
             if (showDialog) {
-                AddItemDialog(
-                    onAdd = { item ->
-                        viewModel.addItem(item)
-                        showDialog = false
-                    },
-                    onDismiss = { showDialog = false }
-                )
+                AddItemDialog(onAdd = { item ->
+                    viewModel.addItem(item)
+                    showDialog = false
+                }, onDismiss = { showDialog = false })
             }
         }
     }
@@ -86,9 +91,8 @@ fun ShoppingListTopAppBar(showTitle: Boolean) {
                     style = MaterialTheme.typography.headlineLarge,
                     color = MaterialTheme.colorScheme.tertiary
                 )
-            },
-            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary,
+            }, colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary,
             )
         )
     }
@@ -98,7 +102,7 @@ fun ShoppingListTopAppBar(showTitle: Boolean) {
 fun FloatingAddButton(onClick: () -> Unit) {
     FloatingActionButton(
         onClick = onClick,
-        containerColor = MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.onPrimary,
         contentColor = MaterialTheme.colorScheme.tertiary,
         modifier = Modifier.size(70.dp, 70.dp)
     ) {
