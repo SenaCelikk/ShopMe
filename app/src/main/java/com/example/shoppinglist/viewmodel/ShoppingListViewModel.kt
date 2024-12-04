@@ -1,11 +1,10 @@
 package com.example.shoppinglist.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shoppinglist.model.ShoppingItem
+import com.example.shoppinglist.data.ShoppingItem
 import com.example.shoppinglist.data.ShoppingListRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch

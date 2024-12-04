@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.example.shoppinglist.model.ShoppingItem
+import com.example.shoppinglist.data.ShoppingItem
 
 @Composable
 fun AddItemDialog(onAdd: (ShoppingItem) -> Unit, onDismiss: () -> Unit) {

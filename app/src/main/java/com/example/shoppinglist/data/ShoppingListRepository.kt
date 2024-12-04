@@ -1,7 +1,6 @@
 package com.example.shoppinglist.data
 
 import android.util.Log
-import com.example.shoppinglist.model.ShoppingItem
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 

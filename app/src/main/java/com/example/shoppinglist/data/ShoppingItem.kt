@@ -1,4 +1,4 @@
-package com.example.shoppinglist.model
+package com.example.shoppinglist.data
 
 data class ShoppingItem(
     var id: String? = null,
